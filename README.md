@@ -45,5 +45,5 @@ scheduler.add_job()
 - Multiple commands per user
 - List of `todo` jobs
 
-## Licence
+## License
 Apache 2.0
