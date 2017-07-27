@@ -19,8 +19,31 @@ python3 server.py
 - Go to `http://locahost:8000`
 - Use it
 
+## Not using database or using another
+If you want you can not use the database or just user another, like Postgresql or MySQL.
+### If you want to use another
+- Change `DB_URL` with the url to your database
+### If you want to not use a database
+I recommend to use one, so the scheduler wont delete de jobs everytime the server crashes.
+- Avoid importing `SQLAlchemyJobStore`
+- Delete the line 19 
+```python
+scheduler.add_jobstore(SQLAlchemyJobStore(url=DB_URL),alias='info')
+```
+- Delete 
+```python
+jobstore='info' 
+```
+from
+```python
+scheduler.add_job() 
+```
+
 ## TODO
 - User login
 - Multiple sockets per user
 - Multiple commands per user
 - List of `todo` jobs
+
+## Licence
+Apache 2.0
