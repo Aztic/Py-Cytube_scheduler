@@ -11,7 +11,6 @@ def create_socket(room,user,pw):
 
 def get_server(protocol,room):
 	secure = True if protocol == 'https' else False
-	options = {'host':'cytu.be','port':443,'path':'/socketconfig/{}.json'.format(room),'timeout':20}
 	req = requests.get('{}://cytu.be:{}/socketconfig/{}.json'.format(protocol,443 if secure else 80,room))
 	if req.status_code == 200:
 		servers = req.json()
