@@ -1,5 +1,5 @@
 # Py-Cytube_scheduler
-A scheduler bot for cytu.be that uses [Sanic](https://github.com/channelcat/sanic) as backend.
+A scheduler bot for [cytu.be](https://cytu.be) that uses [Sanic](https://github.com/channelcat/sanic) as backend.
 
 ## Requirements
 If you want to install them manually, go ahead. If not, use `pip install -r requirements.txt`.
