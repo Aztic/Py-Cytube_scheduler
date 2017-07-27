@@ -60,10 +60,6 @@ def handle_form(request):
 	json.dump(ACTIVE,open('active_jobs','w'))
 	return text("added!")
 
-@app.route("/current")
-def logout(request):
-	return html('current.html')
-
 
 if __name__ == '__main__':
 	app.run(host="localhost",port=8000)
