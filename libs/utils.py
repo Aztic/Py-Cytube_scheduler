@@ -25,8 +25,9 @@ def check_user(user,password):
 	
 def load_sockects():
 	c.execute('SELECT * from user_sockets')
+	#content of every line is (owner,user,password,channel)
 	users = {}
-	#(owner,user,password,channel)
+	
 	for line in c.fetchall():
 		if line[0] not in users:
 			users[line[0]] = []
