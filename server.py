@@ -51,12 +51,6 @@ async def save_session(request, response):
 	await session_interface.save(request, response)
 
 
-@app.route("/test")
-def test(request):
-	for key in request['session']:
-		del request['session'][key]
-	return text("nothing")
-
 @app.route("/")
 def main_page(request):
 	return file('public/views/index.html')
@@ -81,6 +75,8 @@ def login(request):
 @app.route("/schedule")
 @utils.login_required
 def handle_form(request):
+	if request.method == "GET":
+		return redirect('\')
 	#Date/time things
 	print(request.form.get('datetime'))
 	dt = request.form.get('datetime').split('T')
