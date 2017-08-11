@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}SCHEDULER{% endblock %}</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!--<link rel="stylesheet" type="text/css" href="../public/css/style.css"> -->
+
+
+
+</head>
+<body id="page-top" class="index">
+	<!-- Navbar -->
+	<nav id="MainNav" class="collapse navbar navbar-collapse navbar-default navbar-static-top navbar-inverse">
+		<!-- Left side of the navbar -->	
+		<ul class="nav navbar-nav navbar-left">
+			<li><a href="#">Main Page</a></li>
+			<li><a href="#">Scheduler</a></li>
+			{% if user %}
+			<li><a href="#">User</a></li>
+			{% else %}
+			<li><a href="#">Login</a></li>
+			{% endif %}					
+		</ul>
+		<!-- Right side of the navbad -->
+		<ul class="nav navbar-nav navbar-right">
+			<li><a href="https://github.com/Aztic/Py-Cytube_scheduler">Github</a></li>
+			<li><a href="#">Contact</a></li>
+			<li><a href="#"></a></li>	
+		</ul>
+	</nav>
+	{%block body %}
+		<div class="main_body">
+			<div class="container">
+				<div class="intro-text">
+					<div class="intro-lead-in">Main text</div>
+					<div class="intro-heading">Text 2</div>
+					<a href="#contact" class="btn btn-xl"> Get your account</a>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>
