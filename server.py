@@ -1,6 +1,5 @@
 from sanic import Sanic
 from sanic_jinja2 import SanicJinja2
-from routes import api,page
 from sanic.response import text,json,file,html,redirect #response
 from sanic_session import InMemorySessionInterface #session management
 from libs import utils
