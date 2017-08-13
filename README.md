@@ -1,5 +1,5 @@
 # Py-Cytube_scheduler
-A scheduler bot for [cytu.be](https://cytu.be) that uses [Sanic](https://github.com/channelcat/sanic) as backend.
+A scheduler bot for [cytu.be](https://cytu.be) that uses [Sanic](https://github.com/channelcat/sanic) as backend. Was inspired by this [cytube bot](https://github.com/nuclearace/CytubeBot)
 
 ## Requirements
 If you want to install them manually, go ahead. If not, use `pip install -r requirements.txt`.
@@ -26,7 +26,7 @@ If you want you can not use the database or just user another, like Postgresql o
 ### If you want to not use a database
 I recommend to use one, so the scheduler wont delete de jobs everytime the server crashes.
 - Avoid importing `SQLAlchemyJobStore`
-- Delete the line 19 
+- Delete this line
 ```python
 scheduler.add_jobstore(SQLAlchemyJobStore(url=DB_URL),alias='info')
 ```
@@ -40,10 +40,8 @@ scheduler.add_job()
 ```
 
 ## TODO
-- User login
 - Multiple sockets per user
 - Multiple commands per user
-- List of `todo` jobs
 
 ## License
 Apache 2.0
