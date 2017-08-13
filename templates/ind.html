@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>{% block title %}SCHEDULER{% endblock %}</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<!--<link rel="stylesheet" type="text/css" href="../public/css/style.css"> -->
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -19,7 +19,25 @@
 			<li><a href="/">Main Page</a></li>
 			<li><a href="/schedule">Scheduler</a></li>
 			{% if username %}
-			<li><a href="/user" id=username>{{username}}</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    {{ username }} <span class="caret"></span>
+                </a>
+
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a href="/logout"
+                            onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                        <a href="/user"> User </a>
+
+                        <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                        </form>
+                    </li>
+                </ul>
+            </li>
 			{% else %}
 			<li><a href="/login">Login</a></li>
 			{% endif %}					
@@ -35,9 +53,9 @@
 		<div class="main_body">
 			<div class="container">
 				<div class="intro-text">
-					<div class="intro-lead-in">Main text</div>
-					<div class="intro-heading">Text 2</div>
-					<a href="#contact" class="btn btn-xl"> Get your account</a>
+					<div class="intro-lead-in">because i'm to lazy to do it manually</div>
+					<div class="intro-heading">A normal scheduler</div>
+					<a href="/user" class="btn btn-xl">are you lazy enough?</a>
 				</div>
 			</div>
 		</div>

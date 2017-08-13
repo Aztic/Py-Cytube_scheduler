@@ -7,6 +7,7 @@ from libs import utils
 from apscheduler.schedulers.background import BackgroundScheduler # scheduler things
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 import json
+import os
 from datetime import datetime
 
 #Manage sessions
@@ -18,8 +19,10 @@ jinja = SanicJinja2(app)
 #Add routes
 #api.routes(app)
 #page.routes(app)
-CONFIG = json.load(open('config','r'))
-ACTIVE = json.load(open('active_jobs','r'))
+with open('config','r') as config:
+	CONFIG = json.load(config)
+with open('active_jobs','r') as active:
+	ACTIVE = json.load(active)
 #socket = socket.create_socket(room="https://cytu.be/r/whyamicreatingachannel",user="aztic",pw="Haishipe0R")
 SOCKETS = utils.load_sockets()
 
@@ -35,8 +38,9 @@ def clear_done():
 		for key in ACTIVE[user]:
 			status = scheduler.get_job(key)
 			if status is None:
-				ACTIVE.pop(key)
-	json.dump(ACTIVE,open('active_jobs','w'))
+				del ACTIVE[user][key]
+				with open('active_jobs','w') as active:
+					json.dump(ACTIVE,active)
 
 
 def add_video(url,user):
@@ -59,14 +63,16 @@ async def save_session(request, response):
 	await session_interface.save(request, response)
 
 
+#Static files handler
+@app.route('public/<type:string>/<filename:string>',methods=['GET'])
+def return_static(request,type,filename):
+	return file(os.path.join(os.getcwd(),'public',type,filename))
 
 #Socket stuff section
 @app.route('user/deletesocket',methods=['DELETE'])
 @utils.login_required
 def delete_socket(request):
 	user = [*request['session']][0]
-	print(user)
-	print("GOT A DELETE REQUEST")
 	if not utils.valid_token(request['session'][user]):
 		return json({'status':401,'desc':'forbidden'})
 	utils.delete_socket(user)
@@ -94,8 +100,6 @@ def main_page(request):
 @app.route("/login",methods=['GET','POST'])
 def login(request):
 	if request.method == "GET":
-		#request['session']['aztic'] = 1
-		#return text("logged")
 		if not request['session']:
 			return jinja.render('login.html',request)
 		return redirect("/user")
@@ -109,7 +113,7 @@ def login(request):
 		request['session'][username] = utils.user_token(username)
 		return redirect('/')
 
-@app.route("/logout",methods=['GET'])
+@app.route("/logout",methods=['POST'])
 @utils.login_required
 def logout(request):
 	request['session'].clear()
@@ -136,7 +140,6 @@ def handle_form(request):
 			return jinja.render('schedule.html',request,username=user['name'])
 		return redirect('/user')
 	#Date/time things
-	#print(request.form.get('checkbox'))
 	dt = request.form.get('datetime').split('T')
 	date = dt[0].split('-')
 	time = dt[1].split(':')
@@ -150,14 +153,14 @@ def handle_form(request):
 	else:
 		url = url[1]
 	date = datetime(year,month,day,hour,minute,00)
-	user = [*request['session']][0]
-	descrìption = request.form.get('description')
+	#user = [*request['session']][0]
+	description = request.form.get('description')
 
-	temp = scheduler.add_job(add_video,trigger='date',args=[url,user],next_run_time=date,jobstore='info')
+	temp = scheduler.add_job(add_video,trigger='date',args=[url,user['name']],next_run_time=date,jobstore='info')
 
 	if user['name'] not in ACTIVE:
 		ACTIVE[user['name']] = {}
-	ACTIVE[user][temp.id] = {'url':url,'date':str(date),'type':'add video','description':description}
+	ACTIVE[user['name']][temp.id] = {'url':url,'date':str(date),'type':'add video','description':description}
 	json.dump(ACTIVE,open('active_jobs','w'))
 	return redirect("/user")
 
