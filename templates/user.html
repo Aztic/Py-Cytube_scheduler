@@ -1,0 +1,63 @@
+{% extends 'ind.html' %}
+{% block title%} {{user.name}} {% endblock %}
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+                	<div class="panel-heading">Socket</div>
+                	<div class="panel-body">
+                		{% if user.socket %}
+                			<ul class="list-group">
+                				Username<br>
+                				<li class="list-group-item" value="">{{user.socket.username}}</li><br>
+                				Channel<br>
+                				<li class="list-group-item">{{user.socket.channel}}</li><br>
+                				<button type="button" class="btn btn-danger" id="deletesocket">Delete</button>
+                			</ul>
+                		{% else %}
+							<form class="form-horizontal" role="form" action="/user/createsocket" method="post" id="login-form">
+						  		<label for="username" class="control-label">Username</label>
+						  		<input type="username" name="username" class="form-control">
+						  		<label for="text" class="control-label">Channel</label>
+						  		<input type="channel" name="channel" class="form-control">
+						  		<label for="password" class="control-label">password</label>
+						  		<input type="password" name="password" id="password" class="form-control"><br>
+						  		<input type="submit" class="btn btn-primary" value="Create">
+							</form>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-9">
+				<div class="panel panel-default">
+					<div class="panel-heading">Active Jobs</div>
+					<div class="panel-body">
+						<ul class="list-group">
+							{% if jobs is not none %}
+								{% for job in jobs %}
+									<li class="list-group-item">Date: {{jobs[job]['date']}} - url: {{jobs[job]['url']}} - Type: {{jobs[job]['type']}}</li><br>
+								{% endfor %}
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#deletesocket').click( function(){
+			let username = $("#username").text();
+			$.ajax({
+				url:'/user/deletesocket',
+				type:'delete',
+				success:function(msg){
+					location.reload();
+				}
+			});
+		});
+	});
+</script>
+{% endblock %}

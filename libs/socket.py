@@ -2,7 +2,7 @@ import requests
 from socketIO_client import SocketIO
 
 def create_socket(room,user,pw):
-	protocol = room.split(':')[0]
+	protocol = 'https'
 	channel = room.split('/')[-1]
 	socket = SocketIO(get_server(protocol,channel))
 	socket.emit('joinChannel',{'name':channel})

@@ -1,0 +1,26 @@
+{% extends 'ind.html' %}
+{% block title %}Schedule{% endblock %}
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+                	<div class="panel-heading">Data</div>
+                	<div class="panel-body">
+						<form class="form-horizontal" role="form" action="/schedule" method="post">
+					  		<label for="url" class="control-label">Url</label>
+					  		<input type="url" name="url" class="form-control">
+					  		<label for="datetime-local" class="control-label">Date and hour</label>
+					  		<input type="datetime-local" name="datetime" id="datetime" class="form-control"><br>
+					  		<!--<label for="checkbox">Repeat every day</label> -->
+					  		<div class="checkbox">
+					  			<label><input type="checkbox" name="checkbox">Repeat</label>
+					  		</div><br>
+					  		<input type="submit" class="btn btn-primary" value="submit">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

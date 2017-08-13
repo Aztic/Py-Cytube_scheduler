@@ -6,7 +6,8 @@
 	<title>{% block title %}SCHEDULER{% endblock %}</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<!--<link rel="stylesheet" type="text/css" href="../public/css/style.css"> -->
-
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
 </head>
@@ -15,12 +16,12 @@
 	<nav id="MainNav" class="collapse navbar navbar-collapse navbar-default navbar-static-top navbar-inverse">
 		<!-- Left side of the navbar -->	
 		<ul class="nav navbar-nav navbar-left">
-			<li><a href="#">Main Page</a></li>
-			<li><a href="#">Scheduler</a></li>
-			{% if user %}
-			<li><a href="#">User</a></li>
+			<li><a href="/">Main Page</a></li>
+			<li><a href="/schedule">Scheduler</a></li>
+			{% if username %}
+			<li><a href="/user" id=username>{{username}}</a></li>
 			{% else %}
-			<li><a href="#">Login</a></li>
+			<li><a href="/login">Login</a></li>
 			{% endif %}					
 		</ul>
 		<!-- Right side of the navbad -->
@@ -41,7 +42,7 @@
 			</div>
 		</div>
 	{% endblock %}
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 
 </body>
 </html>
