@@ -15,11 +15,6 @@ session_interface = InMemorySessionInterface()
 #Sanic app, gotta go fast
 app = Sanic()
 jinja = SanicJinja2(app)
-#Add routes
-#api.routes(app)
-#page.routes(app)
-with open('config','r') as config:
-	CONFIG = json.load(config)
 with open('active_jobs','r') as active:
 	ACTIVE = json.load(active)
 #socket = socket.create_socket(room="https://cytu.be/r/whyamicreatingachannel",user="aztic",pw="Haishipe0R")
