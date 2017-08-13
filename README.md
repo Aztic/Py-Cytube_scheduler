@@ -42,6 +42,7 @@ scheduler.add_job()
 ## TODO
 - Multiple sockets per user
 - Multiple commands per user
+- Multiple video sources (currently only supports Google Drive for some reasons)
 
 ## License
 Apache 2.0
