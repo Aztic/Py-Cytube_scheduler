@@ -17,7 +17,6 @@ app = Sanic()
 jinja = SanicJinja2(app)
 with open('active_jobs','r') as active:
 	ACTIVE = json.load(active)
-#socket = socket.create_socket(room="https://cytu.be/r/whyamicreatingachannel",user="aztic",pw="Haishipe0R")
 SOCKETS = utils.load_sockets()
 
 #scheduler things
