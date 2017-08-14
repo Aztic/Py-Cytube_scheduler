@@ -1,3 +1,5 @@
-info.db
 *.db
 *.log
+active_jobs
+/__pycache__/
+/utils/pycache/
