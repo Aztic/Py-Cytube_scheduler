@@ -85,7 +85,7 @@ def get_user_info(user):
 	socket = {}
 	data = c.fetchall()
 	user = data[0][1]
-	c.execute('SELECT * FROM user_sockets where user=?',(user,))
+	c.execute('SELECT * FROM user_sockets where owner=?',(user,))
 	data = c.fetchall()
 	if data:
 		socket = {'username':data[0][1],'channel':data[0][3]}
