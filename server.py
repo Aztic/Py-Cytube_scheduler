@@ -84,6 +84,16 @@ def create_socket(request):
 	SOCKETS[user] = utils.create_user_socket(user,username,password,channel)
 	return redirect('/user')
 
+@app.route('user/deletejob',methods=['DELETE'])
+@utils.login_required
+def delete_job(request):
+	user = [*request['session']][0]
+	job_id = request.args.get('id')
+	scheduler.remove_job(job_id)
+	del ACTIVE[user][job_id]
+	json.dump(ACTIVE,open('active_jobs','w'))
+	return text("success")
+
 #Root page
 @app.route("/")
 def main_page(request):

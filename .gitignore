@@ -1,5 +1,5 @@
 *.db
 *.log
 active_jobs
-/__pycache__/
-/utils/pycache/
+__pycache__/
+libs/pycache/

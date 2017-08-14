@@ -83,3 +83,12 @@ fieldset[disabled] .btn-xl.active {
     margin-bottom: 2px;
   }
 }
+
+.icon-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+}

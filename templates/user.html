@@ -37,7 +37,8 @@
 						<ul class="list-group">
 							{% if jobs is not none %}
 								{% for job in jobs %}
-									<li class="list-group-item">Date: {{jobs[job]['date']}} - url: {{jobs[job]['url']}} - Type: {{jobs[job]['type']}}</li><br>
+									<li class="list-group-item">Date: {{jobs[job]['date']}} - url: {{jobs[job]['url']}} - Type: {{jobs[job]['type']}}
+									<button class="jobButton icon-button pull-right" id="{{job}}"><span class="glyphicon glyphicon-trash"></span></button></li><br>
 								{% endfor %}
 							{% endif %}
 						</ul>
@@ -52,6 +53,16 @@
 			let username = $("#username").text();
 			$.ajax({
 				url:'/user/deletesocket',
+				type:'delete',
+				success:function(msg){
+					location.reload();
+				}
+			});
+		});
+
+		$('.jobButton').click(function(){
+			$.ajax({
+				url:'/user/deletejob?id='+$(this).attr('id'),
 				type:'delete',
 				success:function(msg){
 					location.reload();
