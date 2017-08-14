@@ -1,7 +1,0 @@
-*.log
-__pycache__
-__pycache__/*
-libs/__pycache__/
-libs/__pycache__/*
-active_jobs
-info.db
