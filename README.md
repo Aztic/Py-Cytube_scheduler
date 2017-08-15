@@ -11,6 +11,7 @@ If you want to install them manually, go ahead. If not, use `pip install -r requ
 - [SQLite3](https://www.sqlite.org/)
 - [passlib](https://passlib.readthedocs.io/en/stable/)
 - [sanic-jinja2](https://github.com/lixxu/sanic-jinja2)
+- [sanic_session](https://github.com/subyraman/sanic_session)
 
 ## Usage
 - Configure the server with your cytu.be username, password and desired room. Put that info in `config`
@@ -42,7 +43,7 @@ scheduler.add_job()
 ```
 
 ## TODO
-- Multiple sockets per user
+- Multiple sockets per user. Or maybe not, still thinking if this is a good idea.
 - Multiple commands per user
 - Multiple video sources (currently only supports Google Drive because i'm kinda lazy)
 - Improve page style. I'm not a frontend dev so is ugly as fuck
