@@ -88,6 +88,8 @@ def create_socket(request):
 @utils.login_required
 def delete_job(request):
 	user = [*request['session']][0]
+	if not utils.valid_token(request['session'][user]):
+		return json({'status':401,'desc':'forbidden'})
 	job_id = request.args.get('id')
 	scheduler.remove_job(job_id)
 	del ACTIVE[user][job_id]
