@@ -1,5 +1,6 @@
 # Py-Cytube_scheduler
 A scheduler bot for [cytu.be](https://cytu.be) that uses [Sanic](https://github.com/channelcat/sanic) as backend. Was inspired by this [cytube bot](https://github.com/nuclearace/CytubeBot)
+I only recommend using this for personal purposes.
 
 ## Requirements
 If you want to install them manually, go ahead. If not, use `pip install -r requirements.txt`.
@@ -44,7 +45,6 @@ scheduler.add_job()
 
 ## TODO
 - Multiple sockets per user. Or maybe not, still thinking if this is a good idea.
-- Multiple commands per user
 - Multiple video sources (currently only supports Google Drive because i'm kinda lazy)
 - Improve page style. I'm not a frontend dev so is ugly as fuck
 
