@@ -1,5 +1,5 @@
 # Py-Cytube_scheduler
-A scheduler bot for [cytu.be](https://cytu.be) that uses [Sanic](https://github.com/channelcat/sanic) as backend. Was inspired by this [cytube bot](https://github.com/nuclearace/CytubeBot)
+A scheduler bot for [cytu.be](https://cytu.be) that uses [Sanic](https://github.com/channelcat/sanic) as backend. Was inspired by this [cytube bot](https://github.com/nuclearace/CytubeBot).
 I only recommend using this for personal purposes.
 
 ## Requirements
