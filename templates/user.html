@@ -70,6 +70,8 @@
 		</div>
 	</div>
 <script type="text/javascript" src="../public/js/jquery.countdown.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data-2012-2022.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#deletesocket').click( function(){
@@ -95,6 +97,7 @@
 
 		$('.job-item').each(function(){
 			let dt = $(this).find(".date-e").html();
+			//let final = moment.tz(dt,"UTC");
 			$(this).find('.rem').countdown(dt,function(event){
 				$(this).text(
 					event.strftime("%I Hours %M minutes %S seconds")
