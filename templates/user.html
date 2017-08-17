@@ -37,8 +37,30 @@
 						<ul class="list-group">
 							{% if jobs is not none %}
 								{% for job in jobs %}
-									<li class="list-group-item">Date: {{jobs[job]['date']}} - url: {{jobs[job]['url']}} - Type: {{jobs[job]['type']}}
-									<button class="jobButton icon-button pull-right" id="{{job}}"><span class="glyphicon glyphicon-trash"></span></button></li><br>
+									<li class="list-group-item job-item" id="job{{loop.index}}">
+										<label for="date">Date:</label>
+										<span class="date-e">{{jobs[job]['date']}}</span><br>
+										<label for="url">Content:</label>
+										{% if jobs[job]["type"] == 'add video' %}
+										 	<span class="url-e">{{jobs[job]['data']['url']}}</span><br>
+											<label for="remaining">Remaining time:</label>
+											<span class="rem"></span><br>
+										{% elif jobs[job]["type"] == 'send message'%}
+											<span class="msg">{{jobs[job]['data']['msg']}}</span><br>
+										{% endif %}
+
+										<label for="repeat">Interval</label>
+										<span class="interval">{{jobs[job]['interval']}}</span><br>
+
+									 	<label for="type">Type:</label>
+									 	<span class="type-e">{{jobs[job]['type']}}</span><br>
+
+									
+										<label for="description">Description:</label>
+										<span class="description">{{jobs[job]['description']}}</span>
+										
+										<button class="jobButton icon-button pull-right" id="{{job}}"><span class="glyphicon glyphicon-trash"></span></button>
+									</li><br>
 								{% endfor %}
 							{% endif %}
 						</ul>
@@ -47,6 +69,7 @@
 			</div>
 		</div>
 	</div>
+<script type="text/javascript" src="../public/js/jquery.countdown.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#deletesocket').click( function(){
@@ -68,6 +91,19 @@
 					location.reload();
 				}
 			});
+		});
+
+		$('.job-item').each(function(){
+			let dt = $(this).find(".date-e").html();
+			$(this).find('.rem').countdown(dt,function(event){
+				$(this).text(
+					event.strftime("%I Hours %M minutes %S seconds")
+				);
+			})
+			.on('finish.countdown',function(){
+				location.reload();
+			})
+			.countdown('start');
 		});
 	});
 </script>

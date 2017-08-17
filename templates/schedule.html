@@ -1,28 +1,74 @@
 {% extends 'ind.html' %}
 {% block title %}Schedule{% endblock %}
 {% block body %}
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				<div class="panel panel-default">
-                	<div class="panel-heading">Data</div>
-                	<div class="panel-body">
-						<form class="form-horizontal" role="form" action="/schedule" method="post">
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="panel panel-default">
+            	<div class="panel-heading">Data</div>
+            	<div class="panel-body">
+					<form class="form-horizontal" role="form" action="/schedule" method="post">
+						<label for="Action">Action</label>
+						<select class="form-control" id="inputType" name="inputType">
+							<option value="addVideo">Add video</option>
+							<option value="addText">Send message</option>
+						</select><br>
+
+						<!-- Add video section -->
+						<div id="addVideo" class="inputSection">
 					  		<label for="url" class="control-label">Url</label>
 					  		<input type="url" name="url" class="form-control">
-					  		<label for="datetime-local" class="control-label">Date and hour</label>
-					  		<input type="datetime-local" name="datetime" id="datetime" class="form-control">
-					  		<label for="text" class="control-label"> Description</label>
+					  		<label for="text" class="control-label" maxlength="50"> Description</label>
 					  		<input type="text" name="description" id="description" class="form-control"><br>
-					  		<!--<label for="checkbox">Repeat every day</label> -->
-					  		<div class="checkbox">
-					  			<label><input type="checkbox" name="checkbox">Repeat</label>
-					  		</div><br>
-					  		<input type="submit" class="btn btn-primary" value="submit">
-						</form>
-					</div>
+					  	</div>
+
+						<!-- Add text section -->
+					  	<div id="addText" class="inputSection">
+					  		<label for="text">Text</label>
+					  		<input type="text" name="message" class="form-control"><br>
+					  	</div>
+
+				  		<label for="datetime-local" class="control-label">Date and hour</label>
+				  		<input type="datetime-local" name="datetime" id="datetime" class="form-control"><br>
+
+				  		<!-- Repeat? -->
+				  		<div class="checkbox">
+				  			<label><input type="checkbox" name="checkbox" id="repCheck">Repeat</label>
+				  		</div>
+				  		<select class="form-control" id="repOptions" name="repOptions">
+				  			<option value="Weekly">Weekly</option>
+				  			<option value="Daily">Daily</option>
+				  			<option value="Hourly">Hourly(?)</option>
+				  		</select><br>
+				  		<input type="submit" class="btn btn-primary" value="submit">
+
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
+<script type="text/javascript">
+	//Hide elements section
+	$("#repOptions").hide();
+	$("#addText").hide();
+
+	//Show/hide controllers
+
+	//Query type
+	$("#inputType").change(function(){
+		$('.inputSection').hide();
+		$('#'+$(this).val()).show()
+	});
+
+	//Repeat options
+	$("#repCheck").click(function(){
+		if($(this).is(':checked')){
+			$('#repOptions').show();
+		}
+		else{
+			$('#repOptions').hide()
+		}
+	});
+</script>
 {% endblock %}

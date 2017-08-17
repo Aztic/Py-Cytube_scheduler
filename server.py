@@ -1,4 +1,5 @@
 from sanic import Sanic
+from sanic.exceptions import NotFound
 from sanic_jinja2 import SanicJinja2
 from sanic.response import text,json,file,html,redirect #response
 from sanic_session import InMemorySessionInterface #session management
@@ -24,7 +25,8 @@ DB_URL = 'sqlite:///info.db'
 scheduler = BackgroundScheduler()
 scheduler.add_jobstore(SQLAlchemyJobStore(url=DB_URL),alias='info')
 scheduler.start()
-
+handle_type = {}
+repeat_interval = {'Hourly':1,'Daily':24,'Weekly':168}
 
 def clear_done():
 	for user in ACTIVE:
@@ -36,10 +38,33 @@ def clear_done():
 					json.dump(ACTIVE,active)
 
 
-def add_video(url,user):
-	config = {"id": url, "type": "gd", "pos": "end", "duration": 0, "temp": True}
-	SOCKETS[user].emit("queue",config)
+
+#Commands
+
+def add_video(info):
+	config = {"id": info["data"]["url"], "type": info["data"]["type"],
+			 "pos": "end", "duration": 0, "temp": True}
+	SOCKETS[info["user"]].emit("queue",config)
 	clear_done()
+
+def send_message(info):
+	config = {'msg':info["data"]["msg"],'meta':{}}
+	SOCKETS[info["user"]].emit("chatMsg",config)
+	clear_done()
+
+
+def handle_add_video(request):
+	url = request.form.get('url').split('id=')
+	if len(url) != 2:
+		url = request.form.get('url').split('/')[-2]
+	else:
+		url = url[1]
+	return {'data':{'url':url,'type':'gd'},'func':add_video,'type':'add video'}
+
+
+def handle_send_text(request):
+	msg = request.form.get('message')
+	return {'data':{'msg':msg},'func':send_message,'type':'send message'}
 
 
 @app.middleware('request')
@@ -55,6 +80,9 @@ async def save_session(request, response):
 	# pass the response to set client cookies
 	await session_interface.save(request, response)
 
+@app.exception(NotFound)
+def ignore_404(request,exception):
+	return text('Not found m8')
 
 #Static files handler
 @app.route('public/<type:string>/<filename:string>',methods=['GET'])
@@ -91,7 +119,10 @@ def delete_job(request):
 	if not utils.valid_token(request['session'][user]):
 		return json({'status':401,'desc':'forbidden'})
 	job_id = request.args.get('id')
-	scheduler.remove_job(job_id)
+	try:
+		scheduler.remove_job(job_id)
+	except:
+		pass
 	del ACTIVE[user][job_id]
 	json.dump(ACTIVE,open('active_jobs','w'))
 	return text("success")
@@ -144,30 +175,38 @@ def handle_form(request):
 		if user['socket']:
 			return jinja.render('schedule.html',request,username=user['name'])
 		return redirect('/user')
+	req_info = handle_type[request.form.get('inputType')](request)
 	#Date/time things
 	dt = request.form.get('datetime').split('T')
 	date = dt[0].split('-')
 	time = dt[1].split(':')
 	year,month,day = [int(i) for i in date]
 	hour,minute = [int(i) for i in time]
-	repeat = True if request.form.get('checkbox') is not None else False
+
 	#url things
-	url = request.form.get('url').split('id=')
-	if len(url) != 2:
-		url = request.form.get('url').split('/')[-2]
-	else:
-		url = url[1]
+
 	date = datetime(year,month,day,hour,minute,00)
-	#user = [*request['session']][0]
+	info = {'date':date, 'user':user["name"], **req_info}
+
+	repeat = True if request.form.get('checkbox') is not None else False
+	info['interval'] = None
+	if repeat:
+		frecuency = repeat_interval[request.form.get('repOptions')]
+		info['interval'] = request.form.get('repOptions')
+	
 	description = request.form.get('description')
 
-	temp = scheduler.add_job(add_video,trigger='date',args=[url,user['name']],next_run_time=date,jobstore='info')
+	if not repeat:
+		temp = scheduler.add_job(info["func"],trigger='date',args=[info],next_run_time=date,jobstore='info')
+	else:
+		temp = scheduler.add_job(info["func"],trigger="interval",args=[info],start_date=date,hours=frecuency,jobstore='info')
 
 	if user['name'] not in ACTIVE:
 		ACTIVE[user['name']] = {}
-	ACTIVE[user['name']][temp.id] = {'url':url,'date':str(date),'type':'add video','description':description}
+	ACTIVE[user['name']][temp.id] = {'data':info['data'],'date':str(date),'type':info['type'],
+	'description':description,'interval':info['interval']}
 	json.dump(ACTIVE,open('active_jobs','w'))
-	return redirect("/user")
+	return redirect("/user")	
 
 @app.route('/user',methods=['GET'])
 @utils.login_required
@@ -179,4 +218,6 @@ def user_profile(request):
 
 
 if __name__ == '__main__':
+	handle_type['addVideo'] = handle_add_video
+	handle_type['addText'] = handle_send_text
 	app.run(host="127.0.0.1",port=8000,debug=True)

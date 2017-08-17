@@ -6,3 +6,4 @@ SQLAlchemy
 passlib
 sanic_session
 sanic-jinja2
+cryptography
